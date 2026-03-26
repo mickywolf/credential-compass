@@ -25,12 +25,12 @@
     <div class="nav-logo" onclick="showV('quiz')">
       <svg class="cc-mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="14" cy="14" r="11.5" stroke="#f08200" stroke-width="1.5" opacity="0.65"/>
-        <line x1="14" y1="2.5" x2="14" y2="6.5" stroke="#f08200" stroke-width="2" stroke-linecap="round"/>
-        <line x1="25.5" y1="14" x2="21.5" y2="14" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="25.5" y1="14" x2="21.5" y2="14" stroke="#f08200" stroke-width="2" stroke-linecap="round"/>
+        <line x1="14" y1="2.5" x2="14" y2="6.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="14" y1="25.5" x2="14" y2="21.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="2.5" y1="14" x2="6.5" y2="14" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
-        <polygon points="14,5 15.8,14 14,12.2 12.2,14" fill="#f08200"/>
-        <polygon points="14,23 15.8,14 14,15.8 12.2,14" fill="rgba(255,255,255,0.22)"/>
+        <polygon points="23,14 14,12.2 15.8,14 14,15.8" fill="#f08200"/>
+        <polygon points="5,14 14,12.2 12.2,14 14,15.8" fill="rgba(255,255,255,0.22)"/>
         <circle cx="14" cy="14" r="2" fill="#f08200"/>
         <circle cx="14" cy="14" r="1" fill="#1a1a1a"/>
       </svg>
@@ -59,7 +59,7 @@
       <div class="hero-left">
         <p class="hero-eyebrow">Maryland MSDE · 232 Approved IRCs · CCL Playbook</p>
         <h1 class="hero-h1">Navigate <span class="grad-text">credentials.</span><br>Build better pathways.</h1>
-        <p class="hero-sub">A practical decision-support tool for OST leaders designing career-connected learning programs. Answer 5 questions to surface the right credentials for your program.</p>
+        <p class="hero-sub">A practical decision-support tool for OST leaders designing career-connected learning programs. Answer 5 questions to surface the right credentials for your program. <a href="#" onclick="showV('about');return false" style="color:rgba(255,255,255,0.8);text-decoration:underline;text-underline-offset:3px">Companion tool to the CCL Playbook →</a></p>
         <div class="hero-cta">
           <button class="btn-orange" onclick="scrollToQuiz()">Start the Quiz →</button>
           <button class="btn-ghost" onclick="showV('exp')">Browse All 232</button>
@@ -73,7 +73,7 @@
           <div class="h-stat"><div class="h-stat-num c-g">3</div><div class="h-stat-lbl">CCL Modules<br>Available</div></div>
         </div>
         <div class="h-partners">
-          <div class="h-partner-lbl">In partnership with</div>
+          <div class="h-partner-lbl">Created by <strong style="color:rgba(255,255,255,.75)">Dent Education</strong> in partnership with</div>
           <div class="h-partner-row">
             <span class="h-pill">MOST Network</span>
             <span class="h-pill">CareerBound</span>
@@ -105,14 +105,18 @@
         <div class="q-text">What career field(s) are you focused on?</div>
         <div class="q-hint">Select all that apply — credentials score higher when they match your field.</div>
         <div class="q-opts">
-          <div class="q-opt multi" data-v="Digital Technology" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">💻 Tech & Digital</div><div class="q-sub">Cybersecurity, networking, coding, cloud</div></div></div>
+          <div class="q-opt multi" data-v="Digital Technology" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">💻 Digital Technology</div><div class="q-sub">Cybersecurity, networking, coding, cloud</div></div></div>
           <div class="q-opt multi" data-v="Advanced Manufacturing" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">⚙️ Advanced Manufacturing</div><div class="q-sub">CNC, robotics, CAD, 3D design</div></div></div>
-          <div class="q-opt multi" data-v="Arts, Entertainment" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🎨 Arts & Design</div><div class="q-sub">Adobe, media production, animation, web</div></div></div>
-          <div class="q-opt multi" data-v="Health and Human Services" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🏥 Health & Human Services</div><div class="q-sub">CNA, medical assisting, dental, pharmacy</div></div></div>
-          <div class="q-opt multi" data-v="Construction" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🏗️ Construction & Trades</div><div class="q-sub">Electrical, HVAC, welding, plumbing</div></div></div>
-          <div class="q-opt multi" data-v="Supply Chain" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🚚 Supply Chain & Auto</div><div class="q-sub">Automotive, logistics, transportation</div></div></div>
-          <div class="q-opt multi" data-v="Management and Entrepreneurship" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🚀 Business & Entrepreneurship</div><div class="q-sub">Quickbooks, ESB, Six Sigma, Office</div></div></div>
-          <div class="q-opt multi" data-v="Public Service and Safety" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🛡️ Public Safety</div><div class="q-sub">EMT, fire, law enforcement, dispatch</div></div></div>
+          <div class="q-opt multi" data-v="Arts, Entertainment & Design" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🎨 Arts, Entertainment & Design</div><div class="q-sub">Adobe, media production, animation, web</div></div></div>
+          <div class="q-opt multi" data-v="Healthcare & Human Services" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🏥 Healthcare & Human Services</div><div class="q-sub">CNA, medical assisting, dental, pharmacy</div></div></div>
+          <div class="q-opt multi" data-v="Construction" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🏗️ Construction</div><div class="q-sub">Electrical, HVAC, welding, plumbing</div></div></div>
+          <div class="q-opt multi" data-v="Supply Chain & Transportation" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🚚 Supply Chain & Transportation</div><div class="q-sub">Automotive, logistics, transportation</div></div></div>
+          <div class="q-opt multi" data-v="Management and Entrepreneurship" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🚀 Management & Entrepreneurship</div><div class="q-sub">QuickBooks, ESB, Six Sigma, Office</div></div></div>
+          <div class="q-opt multi" data-v="Public Service & Safety" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🛡️ Public Service & Safety</div><div class="q-sub">EMT, fire, law enforcement, dispatch</div></div></div>
+          <div class="q-opt multi" data-v="Agriculture" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🌱 Agriculture</div><div class="q-sub">Horticulture, food science, natural resources</div></div></div>
+          <div class="q-opt multi" data-v="Hospitality, Events, and Tourism" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🏨 Hospitality, Events & Tourism</div><div class="q-sub">Culinary, hotel management, event planning</div></div></div>
+          <div class="q-opt multi" data-v="Marketing and Sales" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">📣 Marketing and Sales</div><div class="q-sub">Social media, branding, customer relations</div></div></div>
+          <div class="q-opt multi" data-v="Education" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🎓 Education</div><div class="q-sub">Teaching, childcare, youth development</div></div></div>
         </div>
       </div>
 
@@ -196,6 +200,7 @@
       <button class="ptog" id="p5w" onclick="tog('5w')">⚡ Under 5 wks</button>
       <button class="ptog purple" id="pCCL" onclick="tog('ccl')">🧭 CCL Module</button>
       <button class="ptog" id="pNoReq" onclick="tog('noreq')">No prereqs</button>
+      <button class="ptog" id="pTop" onclick="tog('top')" style="display:none">★ Top matches</button>
       <div class="mode-tabs">
         <button class="mtab" onclick="setMode('peruse')" id="mt-peruse">Peruse</button>
         <button class="mtab on" onclick="setMode('skim')" id="mt-skim">Skim</button>
@@ -249,7 +254,91 @@
       </div>
     </div>
 
-    <!-- About Dent -->
+    <!-- 1. The CCL Playbook -->
+    <div class="abt-sec">
+      <div class="abt-sec-hdr">
+        <div class="abt-sec-icon icon-p">📖</div>
+        <h2 class="abt-sec-title">The Career-Connected Learning Playbook</h2>
+      </div>
+      <div class="abt-body">
+        <p>The <strong>Career-Connected Learning Playbook: Apprenticeships &amp; Credentials in Out-of-School Time</strong> is a comprehensive guide for OST educators, program leaders, employers, and community partners navigating the shift toward youth-centered workforce development.</p>
+        <p>Originally developed through a partnership between <strong>Dent Education</strong> and the <strong>Maryland Out of School Time (MOST) Network</strong>, with support from the <strong>Baltimore City Office of Information &amp; Technology's Digital Equity Fund</strong>, the Playbook has grown into a field-wide resource supported by <strong>CareerBound</strong> and the <strong>Annie E. Casey Foundation</strong>.</p>
+        <p>The Playbook is organized into <strong>Foundations</strong> (shared understanding of why this work matters) and <strong>Plays</strong> (step-by-step guidance on selecting credentials, building partnerships, designing programs, and sustaining the work). Credential Compass is the interactive companion to <strong>Play 1: Selecting a Credential</strong> — turning the Playbook's scoring matrix into a live, searchable tool.</p>
+      </div>
+      <div class="pb-callout">
+        <div class="pb-callout-l">
+          <p class="pb-eyebrow">The Playbook</p>
+          <h3 class="pb-title">Career-Connected Learning Playbook</h3>
+          <p class="pb-body">The full Playbook is your step-by-step guide to selecting credentials, building employer partnerships, designing equitable programs, and sustaining career-connected learning in OST settings. Credential Compass is its interactive companion for credential selection.</p>
+          <a href="https://www.flipsnack.com/8757576F8D6/ccl-playbook" target="_blank" rel="noopener" class="btn-orange" style="margin-top:18px;text-decoration:none;display:inline-flex">📖 Read the Playbook →</a>
+        </div>
+        <div class="pb-links">
+          <a href="https://www.denteducation.org" target="_blank" class="pb-link o-link">🏫 Dent Education →</a>
+          <a href="https://marylandpublicschools.org/about/pages/approved-credentials.aspx" target="_blank" class="pb-link b-link">📋 MSDE Approved IRCs →</a>
+          <a href="https://marylandpublicschools.org/pages/strategicplan/index.aspx" target="_blank" class="pb-link p-link">📈 Maryland's Blueprint 2030 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. How to Use -->
+    <div class="abt-sec">
+      <div class="abt-sec-hdr">
+        <div class="abt-sec-icon icon-grad">🧭</div>
+        <h2 class="abt-sec-title">How to Use Credential Compass</h2>
+      </div>
+      <div class="abt-cards">
+        <div class="abt-card c-o">
+          <div class="abt-card-icon">❶</div>
+          <div class="abt-card-title">Take the Fit Finder Quiz</div>
+          <div class="abt-card-body">Answer 5 questions about your program — audience, career focus, duration, budget, and priorities. Your results are ranked by fit score.</div>
+        </div>
+        <div class="abt-card c-p">
+          <div class="abt-card-icon">❷</div>
+          <div class="abt-card-title">Explore &amp; Filter</div>
+          <div class="abt-card-body">Browse all 232 credentials in Peruse, Skim, or Deep Dive mode. Filter by cluster, cost, duration, CCL module availability. Compare up to 3 side-by-side.</div>
+        </div>
+        <div class="abt-card c-b">
+          <div class="abt-card-icon">❸</div>
+          <div class="abt-card-title">Shortlist &amp; Share</div>
+          <div class="abt-card-body">Save credentials to your shortlist. Email it to yourself, copy a shareable link for colleagues, or print a clean PDF summary.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Partners -->
+    <div class="abt-sec">
+      <div class="abt-sec-hdr">
+        <div class="abt-sec-icon icon-b">🤝</div>
+        <h2 class="abt-sec-title">Partners &amp; Funders</h2>
+      </div>
+      <div class="abt-body">
+        <p>Credential Compass was built by <strong>Dent Education</strong> and <strong>MOST Network</strong> as an interactive companion to the Career-Connected Learning Playbook. Data research was contributed by <strong>CareerBound</strong>, with funding support from <strong>CareerBound</strong> and the <strong>Annie E. Casey Foundation</strong>. Credential data is sourced from the Maryland State Department of Education's official Approved IRC List.</p>
+      </div>
+      <div class="partners-grid">
+        <div class="pc">
+          <div class="pc-role">Creator &amp; CCL Co-Developer</div>
+          <div class="pc-name"><a href="https://www.denteducation.org" target="_blank" rel="noopener" class="pc-link">Dent Education ↗</a></div>
+          <div class="pc-body">Baltimore-based nonprofit running earn-to-learn innovation programs with youth ages 14–24. Lead developer of Credential Compass and co-developer of the CCL Playbook.</div>
+        </div>
+        <div class="pc p-b">
+          <div class="pc-role">CCL Co-Developer</div>
+          <div class="pc-name"><a href="https://mostnetwork.org" target="_blank" rel="noopener" class="pc-link">MOST Network ↗</a></div>
+          <div class="pc-body">Maryland Out of School Time Network — statewide leader in youth development, co-developer of the Career-Connected Learning Playbook and training series.</div>
+        </div>
+        <div class="pc p-p">
+          <div class="pc-role">Funder &amp; Data Research Partner</div>
+          <div class="pc-name"><a href="https://careerboundmd.org" target="_blank" rel="noopener" class="pc-link">CareerBound ↗</a></div>
+          <div class="pc-body">Funding partner and contributor to the Credential Compass data research — helping ensure credentials reflect real workforce demand in Maryland.</div>
+        </div>
+        <div class="pc p-b">
+          <div class="pc-role">Funder</div>
+          <div class="pc-name"><a href="https://www.aecf.org" target="_blank" rel="noopener" class="pc-link">Annie E. Casey Foundation ↗</a></div>
+          <div class="pc-body">National funder committed to advancing high-quality, career-connected learning opportunities for young people across the country.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. About Dent -->
     <div class="abt-sec">
       <div class="abt-sec-hdr">
         <div class="abt-sec-icon icon-o">🏫</div>
@@ -277,89 +366,6 @@
           <div class="abt-card-icon">🚀</div>
           <div class="abt-card-title">Innovation Careers</div>
           <div class="abt-card-body">Design thinking, AI, 3D fabrication, product development, and now Industry-Recognized Credentials — preparing youth for the jobs of today and tomorrow.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- About the Playbook -->
-    <div class="abt-sec">
-      <div class="abt-sec-hdr">
-        <div class="abt-sec-icon icon-p">📖</div>
-        <h2 class="abt-sec-title">The Career-Connected Learning Playbook</h2>
-      </div>
-      <div class="abt-body">
-        <p>The <strong>Career-Connected Learning Playbook: Apprenticeships &amp; Credentials in Out-of-School Time</strong> is a comprehensive guide for OST educators, program leaders, employers, and community partners navigating the shift toward youth-centered workforce development.</p>
-        <p>Originally developed through a partnership between <strong>Dent Education</strong> and the <strong>Maryland Out of School Time (MOST) Network</strong>, with support from the <strong>Baltimore City Office of Information &amp; Technology's Digital Equity Fund</strong>, the Playbook has grown into a field-wide resource supported by <strong>CareerBound</strong> and the <strong>Annie E. Casey Foundation</strong>.</p>
-        <p>The Playbook is organized into <strong>Foundations</strong> (shared understanding of why this work matters) and <strong>Plays</strong> (step-by-step guidance on selecting credentials, building partnerships, designing programs, and sustaining the work). Credential Compass is the interactive companion to <strong>Play 1: Selecting a Credential</strong> — turning the Playbook's scoring matrix into a live, searchable tool.</p>
-      </div>
-      <div class="pb-callout">
-        <div class="pb-callout-l">
-          <p class="pb-eyebrow">The Playbook Training</p>
-          <h3 class="pb-title">From Playbook to Practice</h3>
-          <p class="pb-body">The CCL Playbook is paired with a live training series for OST providers across Maryland. Participants learn to evaluate credentials, build employer partnerships, design equitable programs, and use data to monitor quality. Credential Compass supports this training by making the credential selection process faster and more informed.</p>
-        </div>
-        <div class="pb-links">
-          <a href="https://www.denteducation.org" target="_blank" class="pb-link o-link">🏫 Dent Education →</a>
-          <a href="https://marylandpublicschools.org/about/pages/approved-credentials.aspx" target="_blank" class="pb-link b-link">📋 MSDE Approved IRCs →</a>
-          <a href="https://marylandpublicschools.org/pages/strategicplan/index.aspx" target="_blank" class="pb-link p-link">📈 Maryland's Blueprint 2030 →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Partners -->
-    <div class="abt-sec">
-      <div class="abt-sec-hdr">
-        <div class="abt-sec-icon icon-b">🤝</div>
-        <h2 class="abt-sec-title">Partners &amp; Funders</h2>
-      </div>
-      <div class="abt-body">
-        <p>Credential Compass was created by <strong>Dent Education</strong> in partnership with the <strong>MOST Network</strong>. The broader CCL Playbook and training work is supported by <strong>CareerBound</strong> and the <strong>Annie E. Casey Foundation</strong>. Data is sourced from the Maryland State Department of Education's official Approved IRC List.</p>
-      </div>
-      <div class="partners-grid">
-        <div class="pc">
-          <div class="pc-role">Created by</div>
-          <div class="pc-name">Dent Education</div>
-          <div class="pc-body">Baltimore-based nonprofit running earn-to-learn innovation programs with youth ages 14–24. Lead developer of Credential Compass and the CCL Playbook.</div>
-        </div>
-        <div class="pc p-b">
-          <div class="pc-role">Co-Developer</div>
-          <div class="pc-name">MOST Network</div>
-          <div class="pc-body">Maryland Out of School Time Network — statewide leader in youth development, co-developer of the Career-Connected Learning Playbook and training series.</div>
-        </div>
-        <div class="pc p-p">
-          <div class="pc-role">Funder</div>
-          <div class="pc-name">CareerBound</div>
-          <div class="pc-body">Funding partner whose investment made the expansion of the CCL Playbook and Credential Compass possible.</div>
-        </div>
-        <div class="pc p-b">
-          <div class="pc-role">Funder</div>
-          <div class="pc-name">Annie E. Casey Foundation</div>
-          <div class="pc-body">National funder committed to advancing high-quality, career-connected learning opportunities for young people.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- How to Use -->
-    <div class="abt-sec">
-      <div class="abt-sec-hdr">
-        <div class="abt-sec-icon icon-grad">🧭</div>
-        <h2 class="abt-sec-title">How to Use Credential Compass</h2>
-      </div>
-      <div class="abt-cards">
-        <div class="abt-card c-o">
-          <div class="abt-card-icon">❶</div>
-          <div class="abt-card-title">Take the Fit Finder Quiz</div>
-          <div class="abt-card-body">Answer 5 questions about your program — audience, career focus, duration, budget, and priorities. Your results are ranked by fit score.</div>
-        </div>
-        <div class="abt-card c-p">
-          <div class="abt-card-icon">❷</div>
-          <div class="abt-card-title">Explore &amp; Filter</div>
-          <div class="abt-card-body">Browse all 232 credentials in Peruse, Skim, or Deep Dive mode. Filter by cluster, duration, CCL module availability. Compare up to 3 side-by-side.</div>
-        </div>
-        <div class="abt-card c-b">
-          <div class="abt-card-icon">❸</div>
-          <div class="abt-card-title">Shortlist &amp; Share</div>
-          <div class="abt-card-body">Save credentials to your shortlist. Email it to yourself, copy a shareable link for colleagues, or print a clean PDF summary.</div>
         </div>
       </div>
     </div>

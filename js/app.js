@@ -1,6 +1,6 @@
 // ── STATE ───────────────────────────────────────────
 let qa={q1:'',q2:[],q3:'',q4:'',q5:[]},qStep=1,qDone=false;
-let fS='',fC='',fCost='',f5w=false,fCCL=false,fNoReq=false,vMode='skim';
+let fS='',fC='',fCost='',f5w=false,fCCL=false,fNoReq=false,fTop=false,vMode='skim';
 let expanded=new Set(),shortlist=new Set(),compare=new Set();
 
 // ── INIT ────────────────────────────────────────────
@@ -96,18 +96,21 @@ function score(d){
 }
 function sLbl(s){
   if(s===null)return null;
-  if(s>=8)return{label:'Strong fit',tCls:'t-fit-o',pCls:'fhi'};
-  if(s>=4)return{label:'Good fit',tCls:'t-fit-p',pCls:'fmd'};
-  if(s>=1)return{label:'Possible',tCls:'t-gray',pCls:'flo'};
+  if(s>=12)return{label:'Excellent match',tCls:'t-fit-o',pCls:'fhi',stars:'★★★★★'};
+  if(s>=8) return{label:'Strong match',  tCls:'t-fit-o',pCls:'fhi',stars:'★★★★'};
+  if(s>=5) return{label:'Good match',    tCls:'t-fit-p',pCls:'fmd',stars:'★★★'};
+  if(s>=2) return{label:'Possible match',tCls:'t-gray', pCls:'flo',stars:'★★'};
+  if(s>=1) return{label:'Weak match',    tCls:'t-gray', pCls:'flo',stars:'★'};
   return null;
 }
 
 // ── STATUS META ─────────────────────────────────────
+// The colored dot in Peruse view — color and tooltip explain the credential's highlight feature
 function stMeta(d){
-  if(d.cclModule==='Yes')return{color:'var(--o)',spCls:'t-o',label:'🧭 CCL Module'};
-  if(d.cclExpert)return{color:'var(--p)',spCls:'t-p',label:'👤 Expert Org'};
-  if(d.under5weeks==='Yes')return{color:'var(--b-dark)',spCls:'t-b',label:'⚡ Quick cert'};
-  return{color:'var(--ink-5)',spCls:'t-gray',label:'MSDE Approved'};
+  if(d.cclModule==='Yes')return{color:'var(--o)',  tip:'CCL Playbook Module available',icon:'🧭'};
+  if(d.cclExpert)        return{color:'var(--p)',  tip:'CCL Playbook Expert: '+d.cclExpert,icon:'👤'};
+  if(d.under5weeks==='Yes')return{color:'var(--b-dark)',tip:'Completable in under 5 weeks',icon:'⚡'};
+  return{color:'var(--ink-4)',tip:'MSDE Approved credential',icon:''};
 }
 
 // ── FILTER ──────────────────────────────────────────
@@ -134,6 +137,7 @@ function getItems(){
     });
   }
   if(fNoReq)items=items.filter(d=>!d.prereqs);
+  if(fTop&&qDone)items=items.filter(d=>(d._s||0)>=8);
   if(qDone)items.sort((a,b)=>(b._s||0)-(a._s||0)||(a.name||'').localeCompare(b.name||''));
   else items.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
   return items;
@@ -153,9 +157,18 @@ function render(){
     if(a.q4&&a.q4!=='any')pe.innerHTML+=`<span class="qpill p-p">💰 ${{free:'Free',low:'&lt;$150',mid:'$150–$400'}[a.q4]}<button class="qpill-x" onclick="rmF('q4')">×</button></span>`;
     const q5L={ccl:'🧭 CCL Module',fast:'⚡ Quick cert',careers:'📈 Career paths',expert:'🏢 Expert org'};
     if(a.q5&&a.q5.length)a.q5.forEach(p=>pe.innerHTML+=`<span class="qpill p-o">${q5L[p]||p}<button class="qpill-x" onclick="rmF('q5','${p}')">×</button></span>`);
-    const hi=items.filter(d=>(d._s||0)>=8).length;
-    document.getElementById('fitTxt').textContent=hi>0?`${hi} strong fits ranked first`:'Sorted by fit score';
-  }else document.getElementById('fitTxt').textContent='Complete the quiz for personalized ranking';
+    const excellent=items.filter(d=>(d._s||0)>=12).length;
+    const strong=items.filter(d=>(d._s||0)>=8).length;
+    const topBtn=document.getElementById('pTop');
+    if(topBtn)topBtn.style.display='';
+    document.getElementById('fitTxt').textContent=
+      excellent>0?`${excellent} excellent + ${strong-excellent} strong matches ranked first`:
+      strong>0?`${strong} strong matches ranked first`:'Sorted by fit score';
+  }else{
+    document.getElementById('fitTxt').textContent='Complete the quiz for personalized ranking';
+    const topBtn=document.getElementById('pTop');
+    if(topBtn){topBtn.style.display='none';fTop=false;topBtn.classList.remove('on');}
+  }
 
   const body=document.getElementById('expBody');
   body.className='exp-body mode-'+vMode;
@@ -172,7 +185,9 @@ function render(){
     ['#fef3e2','#9a4e00'],['#fdf0ff','#7b1fa2'],['#e0f0ff','#1565c0'],
   ];
 
-  let ci=0,html='';
+  const legend=vMode==='peruse'?`<div class="peruse-legend">Dot key: <span class="pl-dot" style="background:var(--o)"></span>CCL Playbook Module &nbsp;·&nbsp; <span class="pl-dot" style="background:var(--p)"></span>CCL Expert Org &nbsp;·&nbsp; <span class="pl-dot" style="background:var(--b-dark)"></span>Under 5 wks &nbsp;·&nbsp; <span class="pl-dot" style="background:var(--ink-4)"></span>Standard</div>`:'';
+
+  let ci=0,html=legend;
   order.forEach(cluster=>{
     const[bg,fg]=palettes[ci++%palettes.length];
     html+=`<div class="cl-sec"><div class="cl-head"><div class="cl-icon" style="background:${bg};color:${fg}">${clE(cluster)}</div><span class="cl-name">${cluster}</span><span class="cl-cnt">${groups[cluster].length}</span></div><div class="clist">${groups[cluster].map((d,i)=>card(d,i)).join('')}</div></div>`;
@@ -195,12 +210,11 @@ function card(d,idx){
 
   const pv=`<div class="pv">
     <span class="ci">${idx+1}</span>
-    <span class="spip" style="background:${sm.color}"></span>
-    ${d.cclModule==='Yes'?'<span class="odot" title="CCL Playbook Module"></span>':''}
+    <span class="spip" style="background:${sm.color}" title="${sm.tip}" aria-label="${sm.tip}"></span>
     <span class="cn">${e(d.name)}</span>
     <span class="ciss">${e(d.issuer||'')}</span>
     <span class="ccst">${cost}</span>
-    ${sl?`<span class="fpill ${sl.pCls}">${sl.label}</span>`:''}
+    ${sl?`<span class="fpill ${sl.pCls}">${sl.stars} ${sl.label}</span>`:''}
     <button class="inline-sl ${inSL?'in':''}" title="${inSL?'Remove from shortlist':'Add to shortlist'}" onclick="togSL('${e(d.code)}',this)">${inSL?'♥':'♡'}</button>
     <span class="chev">›</span>
   </div>`;
@@ -214,7 +228,7 @@ function card(d,idx){
         ${d.under5weeks==='Yes'?'<span class="tag t-o">⚡ Under 5 wks</span>':''}
         ${d.cclModule==='Yes'?'<span class="tag t-ccl">🧭 CCL Playbook Module</span>':''}
         ${d.cclExpert?`<span class="tag t-p">👤 ${e(d.cclExpert)}</span>`:''}
-        ${sl?`<span class="tag ${sl.tCls}">${sl.label}</span>`:''}
+        ${sl?`<span class="tag ${sl.tCls}">${sl.stars} ${sl.label}</span>`:''}
         ${d.prereqs?'<span class="tag t-pre">Prereqs req.</span>':''}
       </div>
     </div>
@@ -234,7 +248,7 @@ function card(d,idx){
       <div class="dt">
         ${d.under5weeks==='Yes'?'<span class="tag t-o">⚡ Under 5 wks</span>':''}
         ${d.cclModule==='Yes'?'<span class="tag t-ccl">🧭 CCL</span>':''}
-        ${sl?`<span class="tag ${sl.tCls}">${sl.label}</span>`:''}
+        ${sl?`<span class="tag ${sl.tCls}">${sl.stars} ${sl.label}</span>`:''}
       </div>
     </div>
     <div class="da">
@@ -293,7 +307,19 @@ function renderSL(){
   if(!shortlist.size){el.innerHTML=`<div class="sl-empty"><h3>Your shortlist is empty</h3><p>Browse credentials, expand any card, and click "Add to Shortlist" to save them here.</p><button class="sl-empty-btn" onclick="showV('exp')">← Browse Credentials</button></div>`;acts.style.display='none';return}
   acts.style.display='flex';
   const items=DATA.filter(d=>shortlist.has(d.code));
-  el.innerHTML=items.map(d=>{
+  const now=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const printHdr=`<div class="print-hdr">
+    <div class="print-hdr-left">
+      <div class="print-hdr-title">Credential Compass — My Shortlist</div>
+      <div class="print-hdr-sub">Career-Connected Learning Playbook · Dent Education &amp; MOST Network · Maryland MSDE</div>
+    </div>
+    <div class="print-hdr-right">Generated ${now}<br>${items.length} credential${items.length!==1?'s':''} saved</div>
+  </div>`;
+  const printFtr=`<div class="print-ftr">
+    Created by <strong>Dent Education</strong> and <strong>MOST Network</strong> · Companion to the <strong>Career-Connected Learning Playbook</strong><br>
+    credential-compass.denteducation.org · Maryland MSDE Approved IRC List · denteducation.org
+  </div>`;
+  el.innerHTML=printHdr+items.map(d=>{
     const sm=stMeta(d),cost=fmtC(d.cost);
     return`<div class="sl-card">
       <div class="sl-card-top"><div>
@@ -319,7 +345,7 @@ function renderSL(){
         </div>
       </div>
     </div>`;
-  }).join('');
+  }).join('')+printFtr;
 }
 function rmSL(code){shortlist.delete(code);updateBadge();saveStore();renderSL()}
 
@@ -392,6 +418,7 @@ function tog(k){
   if(k==='5w'){f5w=!f5w;document.getElementById('p5w').classList.toggle('on',f5w)}
   else if(k==='ccl'){fCCL=!fCCL;document.getElementById('pCCL').classList.toggle('on',fCCL)}
   else if(k==='noreq'){fNoReq=!fNoReq;document.getElementById('pNoReq').classList.toggle('on',fNoReq)}
+  else if(k==='top'){fTop=!fTop;document.getElementById('pTop').classList.toggle('on',fTop)}
   render();
 }
 function rmF(k,v){
