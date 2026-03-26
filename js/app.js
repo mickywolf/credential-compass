@@ -1,6 +1,6 @@
 // ── STATE ───────────────────────────────────────────
 let qa={q1:'',q2:[],q3:'',q4:'',q5:[]},qStep=1,qDone=false;
-let fS='',fC='',f5w=false,fCCL=false,vMode='skim';
+let fS='',fC='',fCost='',f5w=false,fCCL=false,fNoReq=false,vMode='skim';
 let expanded=new Set(),shortlist=new Set(),compare=new Set();
 
 // ── INIT ────────────────────────────────────────────
@@ -11,6 +11,7 @@ function init(){
   clusters.forEach(c=>{sel.innerHTML+=`<option value="${c}">${c}</option>`});
   document.getElementById('srchIn').addEventListener('input',e=>{fS=e.target.value.toLowerCase();render()});
   document.getElementById('clFil').addEventListener('change',e=>{fC=e.target.value;render()});
+  document.getElementById('costFil').addEventListener('change',e=>{fCost=e.target.value;render()});
   updateBadge();
   const p=new URLSearchParams(location.search);
   if(p.get('sl')){try{JSON.parse(atob(p.get('sl'))).forEach(id=>shortlist.add(id));saveStore();updateBadge();showV('sl');return}catch(e){}}
@@ -123,6 +124,16 @@ function getItems(){
   if(fC)items=items.filter(d=>d.cluster&&d.cluster.includes(fC));
   if(f5w)items=items.filter(d=>d.under5weeks==='Yes');
   if(fCCL)items=items.filter(d=>d.cclModule==='Yes');
+  if(fCost){
+    items=items.filter(d=>{
+      const c=costN(d.cost);
+      if(fCost==='free')return !c||c<=50;
+      if(fCost==='low')return c!==null&&c<=150;
+      if(fCost==='mid')return c!==null&&c<=400;
+      return true;
+    });
+  }
+  if(fNoReq)items=items.filter(d=>!d.prereqs);
   if(qDone)items.sort((a,b)=>(b._s||0)-(a._s||0)||(a.name||'').localeCompare(b.name||''));
   else items.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
   return items;
@@ -185,11 +196,12 @@ function card(d,idx){
   const pv=`<div class="pv">
     <span class="ci">${idx+1}</span>
     <span class="spip" style="background:${sm.color}"></span>
-    ${d.cclModule==='Yes'?'<span class="odot" title="CCL Module"></span>':''}
+    ${d.cclModule==='Yes'?'<span class="odot" title="CCL Playbook Module"></span>':''}
     <span class="cn">${e(d.name)}</span>
     <span class="ciss">${e(d.issuer||'')}</span>
     <span class="ccst">${cost}</span>
     ${sl?`<span class="fpill ${sl.pCls}">${sl.label}</span>`:''}
+    <button class="inline-sl ${inSL?'in':''}" title="${inSL?'Remove from shortlist':'Add to shortlist'}" onclick="togSL('${e(d.code)}',this)">${inSL?'♥':'♡'}</button>
     <span class="chev">›</span>
   </div>`;
 
@@ -200,7 +212,7 @@ function card(d,idx){
       ${d.oneLiner?`<div class="s1l">${e(d.oneLiner)}</div>`:''}
       <div class="stags">
         ${d.under5weeks==='Yes'?'<span class="tag t-o">⚡ Under 5 wks</span>':''}
-        ${d.cclModule==='Yes'?'<span class="tag t-ccl">🧭 CCL Module</span>':''}
+        ${d.cclModule==='Yes'?'<span class="tag t-ccl">🧭 CCL Playbook Module</span>':''}
         ${d.cclExpert?`<span class="tag t-p">👤 ${e(d.cclExpert)}</span>`:''}
         ${sl?`<span class="tag ${sl.tCls}">${sl.label}</span>`:''}
         ${d.prereqs?'<span class="tag t-pre">Prereqs req.</span>':''}
@@ -209,6 +221,7 @@ function card(d,idx){
     <div class="sr">
       <div class="scst">${cost}</div>
       <div class="shrs">${e(d.hours||'—')}</div>
+      <button class="inline-sl ${inSL?'in':''}" title="${inSL?'Remove from shortlist':'Add to shortlist'}" onclick="togSL('${e(d.code)}',this)">${inSL?'♥':'♡'}</button>
       <span class="chev" style="font-size:13px">›</span>
     </div>
   </div>`;
@@ -228,13 +241,19 @@ function card(d,idx){
       <div class="dab"><span class="dal">Cost</span><span class="dav dacst">${cost}</span></div>
       <div class="dab"><span class="dal">Training</span><span class="dav">${e(d.hours||'Not listed')}</span></div>
       <div class="dab"><span class="dal">Cluster</span><span class="dav">${e(pC(d.cluster)||'—')}</span></div>
+      <button class="inline-sl ${inSL?'in':''}" title="${inSL?'Remove from shortlist':'Add to shortlist'}" style="align-self:flex-end" onclick="togSL('${e(d.code)}',this)">${inSL?'♥':'♡'}</button>
       <span class="chev" style="align-self:flex-end;font-size:13px">›</span>
     </div>
   </div>`;
 
-  // Detail — CCL callout in orange, fit box in blue, desc in white, career paths in purple
+  // Detail — CCL callout in orange, desc in white, career paths in purple, fit in blue
+  const cclBox=d.cclModule==='Yes'?`<div class="box-o">
+    <div class="box-title bt-o">🧭 CCL Playbook Module${d.cclExpert?' — '+e(d.cclExpert):''}</div>
+    <div class="box-body">A training module for this credential has been built through the CCL Playbook network.${d.cclModuleLink?` <a href="${d.cclModuleLink}" target="_blank" rel="noopener" style="color:#7a4000;font-weight:600">View the module →</a>`:' Contact your CCL Playbook coordinator for access.'}</div>
+  </div>`:'';
+
   const det=`<div class="cdet">
-    ${d.cclModule==='Yes'?`<div class="box-o"><div class="box-title bt-o">🧭 CCL Module Available${d.cclExpert?' — Expert: '+e(d.cclExpert):''}</div><div class="box-body">A training module for this credential has been developed through the CCL Playbook network. Contact your CCL Playbook coordinator for access.</div></div>`:''}
+    ${cclBox}
     <div class="det-g">
       <div class="db"><span class="dl">Name</span><span class="dv2">${e(d.name)}</span></div>
       <div class="db"><span class="dl">Code</span><span class="dv2">${e(d.code)}</span></div>
@@ -244,7 +263,7 @@ function card(d,idx){
       <div class="db"><span class="dl">Training Length</span><span class="dv2">${e(d.hours||'Not listed')}</span></div>
       ${d.prereqs?`<div class="db"><span class="dl">Prerequisites</span><span class="dv2">${e(d.prereqs)}</span></div>`:''}
       <div class="db"><span class="dl">Under 5 Weeks?</span><span class="dv2">${d.under5weeks==='Yes'?'⚡ Yes':'No — longer training needed'}</span></div>
-      ${d.cclExpert?`<div class="db"><span class="dl">CCL-Trusted Expert</span><span class="dv2">${e(d.cclExpert)}</span></div>`:''}
+      ${d.cclExpert?`<div class="db"><span class="dl">CCL Playbook Expert</span><span class="dv2">${e(d.cclExpert)}</span></div>`:''}
     </div>
     ${d.oneLiner?`<div class="box-white"><div class="box-title bt-gray">In One Line</div><div class="box-body it">${e(d.oneLiner)}</div></div>`:''}
     ${d.detailedDesc?`<div class="box-white"><div class="box-title bt-gray">Full Description</div><div class="box-body">${e(d.detailedDesc)}</div></div>`:''}
@@ -330,8 +349,8 @@ function openCmp(){
     ['Issuer',d=>e(d.issuer||'—')],['Career Cluster',d=>e(pC(d.cluster)||'—')],
     ['Exam Cost',d=>e(fmtC(d.cost))],['Training Length',d=>e(d.hours||'Not listed')],
     ['Under 5 Weeks?',d=>d.under5weeks==='Yes'?'⚡ Yes':'No'],
-    ['CCL Module',d=>d.cclModule==='Yes'?'🧭 Yes':'—'],
-    ['CCL-Trusted Expert',d=>e(d.cclExpert||'—')],
+    ['CCL Playbook Module',d=>d.cclModule==='Yes'?(d.cclModuleLink?`🧭 Yes — <a href="${d.cclModuleLink}" target="_blank" rel="noopener">View module →</a>`:'🧭 Yes'):'—'],
+    ['CCL Playbook Expert',d=>e(d.cclExpert||'—')],
     ['Prerequisites',d=>e(d.prereqs||'None listed')],
     ['Career Paths',d=>e(d.careerPaths||'—')],
     ['Good Fit For',d=>e(d.goodFitFor||'—')],
@@ -371,7 +390,8 @@ function emailSL(){
 function setMode(m){vMode=m;document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('on'));document.getElementById('mt-'+m).classList.add('on');render()}
 function tog(k){
   if(k==='5w'){f5w=!f5w;document.getElementById('p5w').classList.toggle('on',f5w)}
-  else{fCCL=!fCCL;document.getElementById('pCCL').classList.toggle('on',fCCL)}
+  else if(k==='ccl'){fCCL=!fCCL;document.getElementById('pCCL').classList.toggle('on',fCCL)}
+  else if(k==='noreq'){fNoReq=!fNoReq;document.getElementById('pNoReq').classList.toggle('on',fNoReq)}
   render();
 }
 function rmF(k,v){
