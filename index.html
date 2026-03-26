@@ -23,14 +23,22 @@
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-logo" onclick="showV('quiz')">
-      <div class="dmark"></div>
+      <svg class="cc-mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="14" cy="14" r="11.5" stroke="#f08200" stroke-width="1.5" opacity="0.65"/>
+        <line x1="14" y1="2.5" x2="14" y2="6.5" stroke="#f08200" stroke-width="2" stroke-linecap="round"/>
+        <line x1="25.5" y1="14" x2="21.5" y2="14" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="14" y1="25.5" x2="14" y2="21.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="2.5" y1="14" x2="6.5" y2="14" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
+        <polygon points="14,5 15.8,14 14,12.2 12.2,14" fill="#f08200"/>
+        <polygon points="14,23 15.8,14 14,15.8 12.2,14" fill="rgba(255,255,255,0.22)"/>
+        <circle cx="14" cy="14" r="2" fill="#f08200"/>
+        <circle cx="14" cy="14" r="1" fill="#1a1a1a"/>
+      </svg>
       <div class="nav-brand">
-        <span class="nav-wordmark">Dent</span>
-        <span class="nav-sub">Education</span>
+        <span class="nav-wordmark">Credential Compass</span>
+        <span class="nav-sub">by Dent Education</span>
       </div>
     </div>
-    <div class="nav-pipe"></div>
-    <span class="nav-tool">Credential Compass</span>
     <div class="nav-links">
       <button class="nav-link on" onclick="showV('exp')" id="nav-exp">Explore</button>
       <button class="nav-link" onclick="showV('sl')" id="nav-sl">Shortlist</button>
@@ -179,11 +187,18 @@
         <input placeholder="Search credentials, issuers, clusters…" id="srchIn">
       </div>
       <select class="f-sel" id="clFil"><option value="">All Clusters</option></select>
-      <button class="ptog" id="p5w" onclick="tog('5w')">⚡ Under 5 weeks</button>
+      <select class="f-sel" id="costFil">
+        <option value="">All Costs</option>
+        <option value="free">Free / &lt;$50</option>
+        <option value="low">Under $150</option>
+        <option value="mid">Under $400</option>
+      </select>
+      <button class="ptog" id="p5w" onclick="tog('5w')">⚡ Under 5 wks</button>
       <button class="ptog purple" id="pCCL" onclick="tog('ccl')">🧭 CCL Module</button>
+      <button class="ptog" id="pNoReq" onclick="tog('noreq')">No prereqs</button>
       <div class="mode-tabs">
-        <button class="mtab on" onclick="setMode('peruse')" id="mt-peruse">Peruse</button>
-        <button class="mtab" onclick="setMode('skim')" id="mt-skim">Skim</button>
+        <button class="mtab" onclick="setMode('peruse')" id="mt-peruse">Peruse</button>
+        <button class="mtab on" onclick="setMode('skim')" id="mt-skim">Skim</button>
         <button class="mtab" onclick="setMode('deep')" id="mt-deep">Deep Dive</button>
       </div>
       <span class="r-info" id="rInfo"></span>
