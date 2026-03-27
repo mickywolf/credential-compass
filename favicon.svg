@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
+  <rect width="28" height="28" rx="5" fill="#1a1a1a"/>
+  <circle cx="14" cy="14" r="11.5" stroke="#f08200" stroke-width="1.5" fill="none" opacity="0.65"/>
+  <!-- NE tick (orange) -->
+  <line x1="22.1" y1="5.9" x2="19.3" y2="8.7" stroke="#f08200" stroke-width="2" stroke-linecap="round"/>
+  <!-- N, S, W ticks (dim) -->
+  <line x1="14" y1="2.5" x2="14" y2="6.5" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="14" y1="25.5" x2="14" y2="21.5" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="2.5" y1="14" x2="6.5" y2="14" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- NE needle (orange, points up-right at 45°) -->
+  <polygon points="20.4,7.6 12.7,12.7 15.3,12.7 15.3,15.3" fill="#f08200"/>
+  <!-- SW needle (dim) -->
+  <polygon points="7.6,20.4 12.7,12.7 12.7,15.3 15.3,15.3" fill="rgba(255,255,255,0.25)"/>
+  <circle cx="14" cy="14" r="2" fill="#f08200"/>
+  <circle cx="14" cy="14" r="1" fill="#1a1a1a"/>
+</svg>

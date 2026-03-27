@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 
 </head>
 <body>
@@ -25,12 +26,16 @@
     <div class="nav-logo" onclick="showV('quiz')">
       <svg class="cc-mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="14" cy="14" r="11.5" stroke="#f08200" stroke-width="1.5" opacity="0.65"/>
-        <line x1="25.5" y1="14" x2="21.5" y2="14" stroke="#f08200" stroke-width="2" stroke-linecap="round"/>
+        <!-- NE tick (orange — needle direction) -->
+        <line x1="22.1" y1="5.9" x2="19.3" y2="8.7" stroke="#f08200" stroke-width="2" stroke-linecap="round"/>
+        <!-- N, S, W ticks (dim) -->
         <line x1="14" y1="2.5" x2="14" y2="6.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="14" y1="25.5" x2="14" y2="21.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="2.5" y1="14" x2="6.5" y2="14" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
-        <polygon points="23,14 14,12.2 15.8,14 14,15.8" fill="#f08200"/>
-        <polygon points="5,14 14,12.2 12.2,14 14,15.8" fill="rgba(255,255,255,0.22)"/>
+        <!-- NE needle (orange, points up-right at 45°) -->
+        <polygon points="20.4,7.6 12.7,12.7 15.3,12.7 15.3,15.3" fill="#f08200"/>
+        <!-- SW needle (dim) -->
+        <polygon points="7.6,20.4 12.7,12.7 12.7,15.3 15.3,15.3" fill="rgba(255,255,255,0.22)"/>
         <circle cx="14" cy="14" r="2" fill="#f08200"/>
         <circle cx="14" cy="14" r="1" fill="#1a1a1a"/>
       </svg>
@@ -117,6 +122,8 @@
           <div class="q-opt multi" data-v="Hospitality, Events, and Tourism" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🏨 Hospitality, Events & Tourism</div><div class="q-sub">Culinary, hotel management, event planning</div></div></div>
           <div class="q-opt multi" data-v="Marketing and Sales" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">📣 Marketing and Sales</div><div class="q-sub">Social media, branding, customer relations</div></div></div>
           <div class="q-opt multi" data-v="Education" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">🎓 Education</div><div class="q-sub">Teaching, childcare, youth development</div></div></div>
+          <div class="q-opt multi" data-v="Financial Services" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">💰 Financial Services</div><div class="q-sub">Accounting, banking, financial planning</div></div></div>
+          <div class="q-opt multi" data-v="Energy and Natural Resources" onclick="selM(this,'q2')"><div class="q-chk">✓</div><div><div class="q-lbl">⚡ Energy and Natural Resources</div><div class="q-sub">Utilities, environmental, renewable energy</div></div></div>
         </div>
       </div>
 

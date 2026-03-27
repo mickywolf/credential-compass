@@ -6,7 +6,8 @@ let expanded=new Set(),shortlist=new Set(),compare=new Set();
 // ── INIT ────────────────────────────────────────────
 function init(){
   loadStore();
-  const clusters=[...new Set(DATA.map(d=>pC(d.cluster)).filter(Boolean))].sort();
+  const allC=new Set();DATA.forEach(d=>{parseClusters(d.cluster||'').forEach(c=>allC.add(c))});
+  const clusters=[...allC].sort();
   const sel=document.getElementById('clFil');
   clusters.forEach(c=>{sel.innerHTML+=`<option value="${c}">${c}</option>`});
   document.getElementById('srchIn').addEventListener('input',e=>{fS=e.target.value.toLowerCase();render()});
@@ -430,7 +431,27 @@ function saveStore(){try{localStorage.setItem('cc_sl',JSON.stringify([...shortli
 function loadStore(){try{const s=localStorage.getItem('cc_sl');if(s)JSON.parse(s).forEach(id=>shortlist.add(id))}catch(x){}}
 
 // ── HELPERS ──────────────────────────────────────────
-function pC(c){if(!c)return'';return c.split(',')[0].trim()}
+const CC_CLUSTERS=['Advanced Manufacturing','Agriculture','Arts, Entertainment & Design','Construction','Digital Technology','Education','Energy and Natural Resources','Financial Services','Healthcare & Human Services','Hospitality, Events, and Tourism','Management and Entrepreneurship','Marketing and Sales','Public Service & Safety','Supply Chain & Transportation'];
+const _CL_SORTED=CC_CLUSTERS.slice().sort((a,b)=>b.length-a.length);
+function pC(c){
+  if(!c)return'';
+  for(const k of _CL_SORTED){if(c===k||c.startsWith(k+',')||c.startsWith(k+' '))return k;}
+  return c.split(',')[0].trim();
+}
+function parseClusters(c){
+  if(!c)return[];
+  const out=[];let rem=c;
+  while(rem){
+    rem=rem.replace(/^[,\s]+/,'');
+    if(!rem)break;
+    let found=false;
+    for(const k of _CL_SORTED){
+      if(rem===k||rem.startsWith(k+',')||rem.startsWith(k+' ')){out.push(k);rem=rem.slice(k.length);found=true;break;}
+    }
+    if(!found)break;
+  }
+  return out;
+}
 function costN(cost){if(!cost)return null;const m=cost.match(/\d[\d,]*/);return m?parseInt(m[0].replace(/,/g,'')):null}
 function fmtC(cost){
   if(!cost)return'—';
