@@ -106,12 +106,14 @@ function sLbl(s){
 }
 
 // ── STATUS META ─────────────────────────────────────
-// The colored dot in Peruse view — color and tooltip explain the credential's highlight feature
+// Returns array of colored dots for Peruse view — multiple dots if credential qualifies for multiple
 function stMeta(d){
-  if(d.cclModule==='Yes')return{color:'var(--o)',  tip:'CCL Playbook Module available',icon:'🧭'};
-  if(d.cclExpert)        return{color:'var(--p)',  tip:'CCL Playbook Expert: '+d.cclExpert,icon:'👤'};
-  if(d.under5weeks==='Yes')return{color:'var(--b-dark)',tip:'Completable in under 5 weeks',icon:'⚡'};
-  return{color:'var(--ink-4)',tip:'MSDE Approved credential',icon:''};
+  const dots=[];
+  if(d.cclModule==='Yes')dots.push({color:'var(--o)',tip:'CCL Playbook Module available',icon:'🧭'});
+  if(d.cclExpert)dots.push({color:'var(--p)',tip:'CCL Playbook Expert: '+d.cclExpert,icon:'👤'});
+  if(d.under5weeks==='Yes')dots.push({color:'var(--b-dark)',tip:'Completable in under 5 weeks',icon:'⚡'});
+  if(!dots.length)dots.push({color:'var(--ink-4)',tip:'MSDE Approved credential',icon:''});
+  return dots;
 }
 
 // ── FILTER ──────────────────────────────────────────
@@ -207,16 +209,18 @@ function render(){
 }
 
 function card(d,idx){
-  const s=d._s,sl=sLbl(s),sm=stMeta(d),cost=fmtC(d.cost),inSL=shortlist.has(d.code),inCmp=compare.has(d.code);
+  const s=d._s,sl=sLbl(s),sms=stMeta(d),cost=fmtC(d.cost),inSL=shortlist.has(d.code),inCmp=compare.has(d.code);
+  const dotsHtml=sms.map(sm=>`<span class="spip" style="background:${sm.color}" title="${sm.tip}" aria-label="${sm.tip}"></span>`).join('');
 
   const pv=`<div class="pv">
     <span class="ci">${idx+1}</span>
-    <span class="spip" style="background:${sm.color}" title="${sm.tip}" aria-label="${sm.tip}"></span>
+    <span class="spips">${dotsHtml}</span>
     <span class="cn">${e(d.name)}</span>
     <span class="ciss">${e(d.issuer||'')}</span>
     <span class="ccst">${cost}</span>
     ${sl?`<span class="fpill ${sl.pCls}">${sl.stars} ${sl.label}</span>`:''}
     <button class="inline-sl ${inSL?'in':''}" title="${inSL?'Remove from shortlist':'Add to shortlist'}" onclick="togSL('${e(d.code)}',this)">${inSL?'♥':'♡'}</button>
+    <button class="inline-cmp ${inCmp?'in':''}" title="${inCmp?'Remove from compare':'Add to compare (up to 3)'}" onclick="togCmp('${e(d.code)}',this)">⊕</button>
     <span class="chev">›</span>
   </div>`;
 
@@ -237,6 +241,7 @@ function card(d,idx){
       <div class="scst">${cost}</div>
       <div class="shrs">${e(d.hours||'—')}</div>
       <button class="inline-sl ${inSL?'in':''}" title="${inSL?'Remove from shortlist':'Add to shortlist'}" onclick="togSL('${e(d.code)}',this)">${inSL?'♥':'♡'}</button>
+      <button class="inline-cmp ${inCmp?'in':''}" title="${inCmp?'Remove from compare':'Add to compare (up to 3)'}" onclick="togCmp('${e(d.code)}',this)">⊕</button>
       <span class="chev" style="font-size:13px">›</span>
     </div>
   </div>`;
@@ -257,6 +262,7 @@ function card(d,idx){
       <div class="dab"><span class="dal">Training</span><span class="dav">${e(d.hours||'Not listed')}</span></div>
       <div class="dab"><span class="dal">Cluster</span><span class="dav">${e(pC(d.cluster)||'—')}</span></div>
       <button class="inline-sl ${inSL?'in':''}" title="${inSL?'Remove from shortlist':'Add to shortlist'}" style="align-self:flex-end" onclick="togSL('${e(d.code)}',this)">${inSL?'♥':'♡'}</button>
+      <button class="inline-cmp ${inCmp?'in':''}" title="${inCmp?'Remove from compare':'Add to compare (up to 3)'}" style="align-self:flex-end" onclick="togCmp('${e(d.code)}',this)">⊕</button>
       <span class="chev" style="align-self:flex-end;font-size:13px">›</span>
     </div>
   </div>`;
